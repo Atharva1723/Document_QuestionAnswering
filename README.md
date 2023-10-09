@@ -18,9 +18,9 @@ This project demonstrates how to perform document question answering using the L
 
 Before running this project, you need to have the following prerequisites installed:
 
-- Python 3.x
-- Langchain library (version X.X.X)
-- Llama2 library (version X.X.X)
+- Python 3.9 or greater
+- Langchain library(langchain==0.0.300)
+- Llama2 library(llama-2-13.bin)
 - Other necessary dependencies (listed in requirements.txt)
 
 You can install Langchain and Llama2 using pip:
