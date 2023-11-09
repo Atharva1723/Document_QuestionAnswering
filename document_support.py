@@ -148,4 +148,4 @@ def get_answer(botid, query):
     )
 
     chain = load_qa_chain(llm, chain_type="stuff")
-    resort_number = check_valid_question_1(query)
+    
