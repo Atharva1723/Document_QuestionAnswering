@@ -1,6 +1,3 @@
-# AUTHOR : TECHMAHINDRA MAKERS LAB #
-
-
 import os
 from abc import ABC, abstractmethod
 import pandas as pd
@@ -126,14 +123,12 @@ def has_keyword(sentence, keywords):
     regex = re.compile(pattern, re.IGNORECASE)
     return bool(regex.search(sentence))
 
-def docsearch_with_name_similarity(botid, query, relevant_document_names):
+def docsearch_with_name_similarity(botid, query):
     bot_folder = os.path.join(BOT_FOLDER, botid)
     persist_directory = os.path.join(bot_folder, 'bert_para_embeddings')
     embeddings = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
     db = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
-    query_with_names = query + " " + " ".join(relevant_document_names)
-    print(query_with_names)
-    return db.similarity_search(query_with_names)
+    return db.similarity_search(query)
 
 def get_answer(botid, query):
     # Verbose is required to pass to the callback manager
@@ -154,21 +149,3 @@ def get_answer(botid, query):
 
     chain = load_qa_chain(llm, chain_type="stuff")
     resort_number = check_valid_question_1(query)
-
-    resort_number_to_name = {
-        1: "Club Mahindra Kanha",
-        2: "Club Mahindra Munnar",
-        3: "Club Mahindra Shimla",
-        4: "Club Mahindra Udaipur",
-        5: "Club Mahindra Varca",
-    }
-
-    if resort_number:
-        CURRENT_RESORT_NAME = resort_number_to_name[resort_number]
-        docs = docsearch_with_name_similarity(botid, query, CURRENT_RESORT_NAME)
-        ans = str(chain.run(input_documents=docs, question=query))
-        return ans
-    else:
-        if not resort_number:
-            ans = "Sorry, I did not understand that. Please mention the name of the resort in the question.\n"
-            return ans
